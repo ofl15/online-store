@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Navbar() {
+export default function Navbar({brands , categories , products}) {
    return (
        <div>
            <section className="hero m-3">
@@ -31,18 +31,11 @@ export default function Navbar() {
                                            </div>
                                            <div className="dropdown-menu" id="dropdown-menu" role="menu">
                                                <div className="dropdown-content">
-                                                   <a className="dropdown-item">
-                                                       Laptops
+                                                {categories && categories.map(category => (
+                                                   <a className="dropdown-item" key={category.id}>
+                                                       {category.attributes.title}
                                                    </a>
-                                                   <a className="dropdown-item">
-                                                       Phones
-                                                   </a>
-                                                   <a className="dropdown-item">
-                                                       Watches
-                                                   </a>
-                                                   <a className="dropdown-item">
-                                                       Headphones
-                                                   </a>
+                                                ))}
                                                </div>
                                            </div>
                                        </div>
@@ -57,18 +50,12 @@ export default function Navbar() {
                                            </div>
                                            <div className="dropdown-menu" id="dropdown-menu" role="menu">
                                                <div className="dropdown-content">
-                                                   <a className="dropdown-item">
-                                                       Apple
+                                                {brands && brands.map(brand => (
+                                                   <a className="dropdown-item" key={brand.id}>
+                                                       {brand.attributes.title}
                                                    </a>
-                                                   <a className="dropdown-item">
-                                                       Lenovo
-                                                   </a>
-                                                   <a className="dropdown-item">
-                                                       Samsung
-                                                   </a>
-                                                   <a className="dropdown-item">
-                                                       Asus
-                                                   </a>
+                                                ))}
+                                                   
                                                </div>
                                            </div>
                                        </div>

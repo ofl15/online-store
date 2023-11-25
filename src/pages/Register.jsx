@@ -18,8 +18,8 @@ const Register = () => {
        
         if(password === password2) {
             axios.post("http://localhost:1337/api/users", {username , email , password , confirmed: true, role: 1 })
-            .then(() => navigate('/'))
-            .catch(err => console.log(err, "------------------------------"))
+            .then(() => navigate('/login'))
+            .catch(err => console.log(err))
         } else {
             throw Error('Password do not match')
         }

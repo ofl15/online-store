@@ -1,10 +1,33 @@
+import axios from 'axios'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Login = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
+
+    const notify = () => toast("You successfully logged in");
+
+    
+    const signIn = event => {
+        event.preventDefault()
+
+        axios.post('http://localhost:1337/api/auth/local' , { 
+            identifier: username,
+            password,
+        })
+            .then(res => {
+                localStorage.setItem('user' , JSON.stringify(res.data.user))
+                localStorage.setItem('token' , JSON.stringify(res.data.jwt))
+                navigate('/')
+                notify()
+            })
+            .catch(err => console.log((err)))
+    }
 
 
   return (
@@ -14,7 +37,7 @@ const Login = () => {
                 <div className="column is-5">
                     <div className="box has-background-info-light">
                         <div className="title has-text-centered">Login</div>
-                        <form>
+                        <form className='form' onSubmit={event=> signIn(event)}>
                             <label htmlFor='name' className='label'>Enter username</label>
                             <input 
                             type="text" 

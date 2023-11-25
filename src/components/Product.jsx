@@ -1,12 +1,14 @@
 import React from 'react';
 
-export default function Product({name, brand, price}) {
+export default function Product({name, brand, price , thumb , id}) {
    return (
        <div className="card" style={{maxWidth: '270px'}}>
            <div className="card-image">
                <figure className="image">
-                   <img src='https://nayemdevs.com/wp-content/uploads/2020/03/default-product-image.png'
-                        alt="Placeholder image"/>
+                   <img src={`http://localhost:1337${thumb}`}
+                        alt="Placeholder image" 
+                        style={{height: "300px"}}
+                        />
                </figure>
            </div>
            <div className="card-content ">
@@ -16,7 +18,7 @@ export default function Product({name, brand, price}) {
                        <div className="columns is-centered mt-3">
                            <div className="column is-10">
                                <div className="title is-6">
-                                   {price} $
+                                   {price} uzs
                                </div>
                            </div>
                            <div className="column">

@@ -1,6 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Menu() {
+
+    const navigate = useNavigate()
+
+
+    const logOut = () => {
+        localStorage.removeItem('user')
+        localStorage.removeItem('token')
+        navigate('/login')
+    }
+
+
+
    return (
        <aside className="menu p-4 has-text-centered" style={{height: '1000px'}}
 >
@@ -24,8 +37,9 @@ export default function Menu() {
                    <a>Orders</a>
                </li>
                <li>
-                   <a className='has-text-danger'>Log out</a>
+                   <a onClick={logOut} className='has-text-danger'>Log out</a>
                </li>
+               
            </ul>
        </aside>
    );
