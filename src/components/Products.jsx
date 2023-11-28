@@ -10,7 +10,7 @@ export default function Products({products}) {
                    id={product.id}
                    brand={product.attributes.brand.data.attributes.title}
                    name={product.attributes.name}
-                   price={product.attributes.price}
+                   price={product.attributes.price}x
                    thumb={product.attributes.image.data.attributes.url}
                />
            </div>

@@ -30,11 +30,19 @@ const Home = () => {
       .catch(err => console.log(err))
   }
 
+
   const filter = filters => {
-    axios.get(PRODUCTS + `&filters[${filters.key}][title][&eq]=${filters.value}`)
+    axios.get(PRODUCTS + `&filters[${filters.key}][title][$eq]=${filters.value}`)
       .then(res => setProducts(res.data.data))
       .catch(err => console.log(err))
   }
+
+  const search = value => {
+    axios.get(PRODUCTS + `&filters[name][$containsi]=${value}`)
+        .then(res => setProducts(res.data.data))
+        .catch(err => console.log(err))
+ }
+ 
 
   const isAuthenticated = localStorage.getItem("user") && localStorage.getItem("token")
 
@@ -45,7 +53,13 @@ const Home = () => {
 
   return (
     <Layout>
-        <Navbar brands={brands} categories={categories} products={products}/>
+        <Navbar 
+          brands={brands} 
+          categories={categories} 
+          products={products} 
+          filter={filter} 
+          load={load} 
+          search={search}/>
         <Products products={products}/>
     </Layout>
   )
