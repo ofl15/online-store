@@ -4,7 +4,7 @@ export default function Navbar({ brands, categories, products, filter , load , s
 
     const [value , setValue] = useState("")
 
-    if (value == '') load() 
+    if (value == ' ') load() 
 
   return (
     <div>

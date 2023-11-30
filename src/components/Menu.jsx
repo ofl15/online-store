@@ -15,8 +15,7 @@ export default function Menu() {
 
 
    return (
-       <aside className="menu p-4 has-text-centered" style={{height: '1000px'}}
->
+       <aside className="menu p-4 has-text-centered" style={{height: '1000px'}} >
            <div className="title is-size-3 ">
                Online store
            </div>

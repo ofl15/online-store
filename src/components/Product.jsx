@@ -1,15 +1,18 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Product({name, brand, price , thumb , id}) {
    return (
        <div className="card" style={{maxWidth: '270px'}}>
            <div className="card-image">
+            <Link to={`product/${id}`}>
                <figure className="image">
                    <img src={`http://localhost:1337${thumb}`}
                         alt="Placeholder image" 
                         style={{height: "300px"}}
                         />
                </figure>
+            </Link>
            </div>
            <div className="card-content ">
                <div className="media">
@@ -27,6 +30,14 @@ export default function Product({name, brand, price , thumb , id}) {
                        </div>
                    </div>
                </div>
+
+                <button className='button is-info is-outlined is-fullwidth'>
+                    <ion-icon name="cart-outlined" />
+                    <span className='mx-2'>
+                        Add to cart
+                    </span>
+                </button>
+
            </div>
        </div>
    )
