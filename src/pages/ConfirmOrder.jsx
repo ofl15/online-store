@@ -8,12 +8,12 @@ export default function ConfirmOrder() {
   const [name, setName] = useState("");
   const [address, setAdress] = useState("");
   const [phone, setPhone] = useState("");
-  const [Customer] = useState(JSON.parse(localStorage.getItem('user') || []))
+  const [customer] = useState(JSON.parse(localStorage.getItem('user') || []))
   const [orderProduct, setOrderProduct] = useState([]);
   const params = useParams();
   const navigate = useNavigate()            
 
-  
+         
   useEffect(() => {
     axios
       .get(ORDER_PRODUCT.replace("id", params.productId))
@@ -33,7 +33,7 @@ export default function ConfirmOrder() {
  
     axios.post(ORDERS, {
         data: {
-            Customer, address, phone,
+            customer, address, phone,
             total: orderProduct.attributes.total,
             order_products: orderProduct.id
         }
