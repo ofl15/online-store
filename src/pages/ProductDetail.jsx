@@ -1,13 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import {Link , useParams} from "react-router-dom";
 import Layout from '../components/Layout';
 import axios from 'axios';
-import { PRODUCT } from '../urls';
-
-
+import { addProduct } from '../utils/AddProduct';
+import { Link, useNavigate , useParams } from 'react-router-dom';
+import { ORDER_PRODUCTS , PRODUCT } from '../urls';
 
 export default function ProductDetail() {
+
     const [product , setProduct] = useState()
+    const [cart , setCart] = useState(JSON.parse(localStorage.getItem('cart')) || [])
+
+    const navigate = useNavigate()
+
+    const createOrderProducts = () => {
+        axios.post(ORDER_PRODUCTS , {
+            data: {
+                amount: 1,
+                product: product ,
+                total: product.attributes.price
+            }
+        })
+            .then(res => navigate(`/order/${res.data.data.id}/1`))
+            .catch(err => console.log(err))
+    }
+
+
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cart))
+    }, [cart])
+
+    const { id } = useParams()
+
 
     useEffect(() => {
         axios.get(PRODUCT.replace('id' , id))
@@ -15,7 +38,6 @@ export default function ProductDetail() {
             .catch(err => console.log(err))
     } , [])
   
-    const { id } = useParams()
 
     const image = product ? product.attributes.image.data.attributes.url : ''
     const description = product ? product.attributes.description : ''
@@ -46,8 +68,8 @@ export default function ProductDetail() {
                                        <div className="title is-4 has-text-success">{price} sum</div>
                                        <div className="content">
                                            <div className="subtitle is-spaced has-text-weight-bold">Brand: {brand}</div>
-                                           <button className="button mr-3 is-primary">Buy</button>
-                                           <button className="button is-info">
+                                           <button className="button mr-3 is-primary" onClick={createOrderProducts}>Buy</button>
+                                           <button className="button is-info" onClick={() => addProduct(cart , setCart, product , 1)}>
                                                Add to card
                                            </button>
                                            <hr className='dropdown-divider my-3'/>

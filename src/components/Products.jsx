@@ -1,20 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import Product from "./Product";
+import { addProduct } from "../utils/AddProduct";
 
-export default function Products({products}) {
-   return (
-       <div className="columns is-multiline is-centered">
-        {products.map(product => (
-           <div className="column is-3" key={product.id}>
-               <Product
-                   id={product.id}
-                   brand={product.attributes.brand.data.attributes.title}
-                   name={product.attributes.name}
-                   price={product.attributes.price}x
-                   thumb={product.attributes.image.data.attributes.url}
-               />
-           </div>
-        ))}
-       </div>
-   );
+export default function Products({ products }) {
+    console.log(JSON.parse(localStorage.getItem('cart')));
+    const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart')) || [])
+    const [count] = useState(1)
+
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cart))
+    }, [cart])
+
+ 
+
+  return (
+    <div className="columns is-multiline is-centered">
+      {products.map((product) => (
+        <div className="column is-3" key={product.id}>
+          <Product
+            id={product.id}
+            brand={product.attributes.brand.data.attributes.title}
+            name={product.attributes.name}
+            price={product.attributes.price}
+            thumb={product.attributes.image.data.attributes.url}
+            addProduct={addProduct}
+            product={product}
+            cart={cart}
+            setCart={setCart}
+            count={count}
+          />
+        </div>
+      ))}
+    </div>
+  );
 }

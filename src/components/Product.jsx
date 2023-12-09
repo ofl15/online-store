@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function Product({name, brand, price , thumb , id}) {
+export default function Product({name, brand, price , thumb , id, addProduct , product , cart , setCart , count}) {
+
+
    return (
        <div className="card" style={{maxWidth: '270px'}}>
            <div className="card-image">
@@ -31,7 +33,10 @@ export default function Product({name, brand, price , thumb , id}) {
                    </div>
                </div>
 
-                <button className='button is-info is-outlined is-fullwidth'>
+                <button 
+                className='button is-info is-outlined is-fullwidth'
+                onClick={() => addProduct(cart , setCart , product,  count)}
+                >
                     <ion-icon name="cart-outlined" />
                     <span className='mx-2'>
                         Add to cart
