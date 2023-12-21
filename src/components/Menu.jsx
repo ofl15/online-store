@@ -45,7 +45,7 @@ export default function Menu() {
                 </li>
                 <li>
                         <IoBasketOutline/>
-                    <Link to='/cart' style={{ "display": "inline-block" }}>
+                    <Link to='/orders' style={{ "display": "inline-block" }}>
                         Orders
                     </Link>
                 </li>

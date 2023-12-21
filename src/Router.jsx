@@ -6,7 +6,7 @@ import Login12 from './pages/Login12'
 import ProductDetail from './pages/ProductDetail'
 import Cart from './pages/Cart'
 import ConfirmOrder from './pages/ConfirmOrder'
-
+import Orders from "./pages/Orders"
 
 const Router = () => {
   return (
@@ -18,6 +18,7 @@ const Router = () => {
             <Route path='/product/:id' element={<ProductDetail />} exact/>
             <Route path='/cart' element={<Cart />} exact/>
             <Route path='/order/:productId/:amount' element={<ConfirmOrder />} exact/>
+            <Route path='/orders' element={<Orders />} exact/>
         </Routes>
     </BrowserRouter>
   )

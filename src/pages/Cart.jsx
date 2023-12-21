@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState  } from 'react';
 import Layout from "../components/Layout";
+import { ORDER_PRODUCTS } from '../urls';
+import { useNavigate, Link} from 'react-router-dom';
+import axios from 'axios';
 
 export default function Cart() {
 
@@ -10,6 +13,8 @@ export default function Cart() {
     const removeCartItem = cartItem => {
         setCart([...cart.filter(item =>cartItem.product.id !== item.product.id)])
     }
+
+    const navigate = useNavigate()
 
 
     const increase = (cartItem) => {
@@ -33,6 +38,19 @@ export default function Cart() {
             }
             return item 
         }))
+    }
+
+    const createOrderProducts = item => {
+        axios.post(ORDER_PRODUCTS, {
+            data: {
+                amount: item.count,
+                product: item.product,
+                total: item.product.attributes.price * item.count,
+            }
+        })
+            .then(res => navigate(`/order/${res.data.data.id}/${item.count}`))
+            .catch(err => console.log(err))
+        return removeCartItem(item)
     }
 
 
@@ -67,7 +85,9 @@ export default function Cart() {
                                    </div>
                                    <div className="column is-flex is-flex-direction-column is-justify-content-center">
                                        <button
-                                           className='button is-success mx-1'>
+                                           className='button is-success mx-1'
+                                           onClick={() => createOrderProducts(cartItem)}
+                                           >
                                            Buy
                                        </button>
                                        <br/>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { ORDERS, ORDER_PRODUCT } from "../urls";
 
@@ -8,12 +8,11 @@ export default function ConfirmOrder() {
   const [name, setName] = useState("");
   const [address, setAdress] = useState("");
   const [phone, setPhone] = useState("");
-  const [customer] = useState(JSON.parse(localStorage.getItem('user') || []))
+  const [customer] = useState(JSON.parse(localStorage.getItem("user") || []));
   const [orderProduct, setOrderProduct] = useState([]);
   const params = useParams();
-  const navigate = useNavigate()            
+  const navigate = useNavigate();
 
-         
   useEffect(() => {
     axios
       .get(ORDER_PRODUCT.replace("id", params.productId))
@@ -21,28 +20,31 @@ export default function ConfirmOrder() {
       .catch((err) => console.log(err));
   }, []);
 
-  const deleteOrderProduct= () => {
-    axios.delete(ORDER_PRODUCT.replace("id" , params.productId))
-        .then(() => navigate(`/product/${orderProduct.attributes.product.data.id}`))
-        .catch(err => console.log(err))
-  }
+  const deleteOrderProduct = () => {
+    axios
+      .delete(ORDER_PRODUCT.replace("id", params.productId))
+      .then(() =>
+        navigate(`/product/${orderProduct.attributes.product.data.id}`)
+      )
+      .catch((err) => console.log(err));
+  };
 
+  const createOrder = (e) => {
+    e.preventDefault();
 
-  const createOrder = e => {
-    e.preventDefault()
- 
-    axios.post(ORDERS, {
+    axios
+      .post(ORDERS, {
         data: {
-            customer, address, phone,
-            total: orderProduct.attributes.total,
-            order_products: orderProduct.id
-        }
-    })
-        .then(res => console.log(res))
-        .catch(err => console.log(err))
- }
- 
-
+          customer,
+          address,
+          phone,
+          total: orderProduct.attributes.total,
+          order_products: orderProduct.id,
+        },
+      })
+      .then(() => navigate("/orders"))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <Layout>
@@ -86,7 +88,7 @@ export default function ConfirmOrder() {
                 </div>
                 <button
                   className="button is-fullwidth is-success my-4"
-                  type="submit" 
+                  type="submit"
                 >
                   Submit
                 </button>
@@ -98,14 +100,20 @@ export default function ConfirmOrder() {
               <div className="columns is-flex is-align-items-center">
                 {orderProduct.attributes && (
                   <div className="column mt-4">
-                    <p className="title is-2 has-text-left mb-6">Product: {orderProduct.attributes.product.data.attributes.name}</p>
-                    <p className="subtitle is-size-4 mr-2">
-                      <span className="has-text-weight-bold">Price:</span>
-                      {orderProduct.attributes.product.data.attributes.price} sum
-
+                    <p className="title is-2 has-text-left mb-6">
+                      Product:{" "}
+                      {orderProduct.attributes.product.data.attributes.name}
                     </p>
                     <p className="subtitle is-size-4 mr-2">
-                      <span className="has-text-weight-bold">Amount:</span>x {orderProduct.attributes.amount}
+                      <span className="has-text-weight-bold">Price:</span>
+                      {
+                        orderProduct.attributes.product.data.attributes.price
+                      }{" "}
+                      sum
+                    </p>
+                    <p className="subtitle is-size-4 mr-2">
+                      <span className="has-text-weight-bold">Amount:</span>x{" "}
+                      {orderProduct.attributes.amount}
                     </p>
                     <p className="subtitle is-size-4 mr-2">
                       <span className="has-text-weight-bold">Total:</span>
@@ -115,10 +123,18 @@ export default function ConfirmOrder() {
                 )}
               </div>
               <button
-              onClick={deleteOrderProduct}
-              className="button is-warning is-fullwidth">
+                onClick={deleteOrderProduct}
+                className="button is-warning is-fullwidth"
+              >
                 Back to &nbsp;
-                <b>{orderProduct.attributes ? orderProduct.attributes.product.data.attributes.name.slice(0, 30) : ""}</b>
+                <b>
+                  {orderProduct.attributes
+                    ? orderProduct.attributes.product.data.attributes.name.slice(
+                        0,
+                        30
+                      )
+                    : ""}
+                </b>
               </button>
             </div>
           </div>
